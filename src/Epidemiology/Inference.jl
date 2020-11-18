@@ -1,3 +1,7 @@
+function ODE_wrapper(u0::Vector{Float64}, tspan::Vector{Float64}, params::EpiSystem, t::Float64)
+    update!(params, 1.0day)
+    return params.abundances.matrix
+end
 """
     SIR_wrapper(grid_size::Tuple{Int64, Int64}, area::Unitful.Area{Float64}, params::NamedTuple, runtimes::NamedTuple)
 
@@ -30,7 +34,7 @@ function SIR_wrapper!(grid_size::Tuple{Int64, Int64}, area::Unitful.Area{Float64
         (name="Force", initial=0),
     ])
     numvirus = nrow(abun_v)
-    
+
     # Set initial population sizes for all human categories
     susceptible = 500_000 * Ncells
     abun_h = DataFrame([
